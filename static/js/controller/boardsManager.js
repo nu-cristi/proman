@@ -14,6 +14,9 @@ import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
 
 export let boardsManager = {
+
+    drake: dragula({}),
+
     loadBoards: async function () {
         let userId;
         let boards = []
@@ -21,6 +24,7 @@ export let boardsManager = {
         let privateButton = document.getElementById("create_private_board")
 
         boards = publicBoards;
+       
 
         await this.newBoard()
         let columns = document.getElementsByClassName("board-content");
@@ -32,7 +36,7 @@ export let boardsManager = {
             const boardBuilder = htmlFactory(htmlTemplates.board);   //acestea sunt scripturi
             const content = boardBuilder(statuses, board);     //aici este inserat scriptul și devine un element real
             domManager.addChild("#root", content);
-
+            this.dragAndDrop(board.id);
             domManager.addEventListenerToMore(
                 `.board-title`,
                 "dblclick",
@@ -60,6 +64,30 @@ export let boardsManager = {
             domManager.addChild("#root", button);
             domManager.addEventListener(`#create_new_board`, 'click', addBoardTitle)
     },
+    dragAndDrop: function (boardId) {
+        const cardContainers = document.querySelectorAll(`.board[data-board-id="${boardId}"] .board-column-content`)
+        // let containers = []; 
+        for (let cardContainer of cardContainers) {
+            const string = `.board[data-board-id="${boardId}"] .` + cardContainer.classList[cardContainer.classList.length - 1];
+            const selectContainer = document.querySelector(string);
+            this.drake.containers.push(selectContainer);
+        }
+        this.drake.on('drop', async function (e) {
+            const statusId = e.parentElement.dataset.status;
+            
+            let cardsOrder = [];
+            const statusElement = e.parentElement.children;
+            for (let i = 0; i < statusElement.length; i++){
+                const cardIdAndOrder = {
+                    cardId: parseInt(statusElement[i].dataset.cardId),
+                    cardOrder: i + 1
+                }
+                dataHandler.moveCards(cardIdAndOrder.cardId, boardId, statusId);
+                cardsOrder.push(cardIdAndOrder);
+            }
+        
+        })
+    }
 };
 
 async function addNewCard(clickEvent) {
@@ -154,11 +182,12 @@ async function showHideButtonHandler(clickEvent) {
     let boardId = clickEvent.target.dataset.boardId
     let changeButton = document.querySelector(`.arrow-board-toggle[data-board-id="${boardId}"]`) // our button switch
     changeButton.src = "../static/left.png"; // if you click and go left
+    
     if (clickEvent.target.dataset.show === "false") {
         const boardId = clickEvent.target.dataset.boardId;
         const addColumnButton = addButtonBuilder('column')
         const addCardButton = addButtonBuilder('card')
-        await cardsManager.loadCards(boardId);             // de comentat
+        await cardsManager.loadCards(boardId);            // de comentat
         clickEvent.target.dataset.show = "true";
         for (let column of columns) {
             if (boardId === column.dataset.boardId) {
@@ -175,6 +204,7 @@ async function showHideButtonHandler(clickEvent) {
                     addNewColumn);
             }
         }
+        
     } else {
         changeButton.src = "../static/downs.png";
         header.removeChild(header.children[1])
@@ -193,6 +223,7 @@ async function showHideButtonHandler(clickEvent) {
         }
 
     }
+    
 
 }
 

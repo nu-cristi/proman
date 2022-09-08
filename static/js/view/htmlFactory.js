@@ -53,7 +53,7 @@ function boardBuilder(statuses, board) {
                         style="float: right"></button>
                     </div>
 
-                    <div class="board-column-content" data-status="${col.id}_${col.board_id}" 
+                    <div class="board-column-content board-column-content${col.id}" data-status="${col.id}_${col.board_id}" 
                     data-board-id="${col.board_id}"></div>
                 </div>`)
     }
@@ -123,7 +123,7 @@ export function newColumnBuilder(title, boardId, status) {
                     <div class="board-column-title">${title}
                         <button type="button" class="icon-button right fas fa-trash-alt" id="delete_column_${status}" style="float: right"></button>     
                     </div>    
-                    <div class="board-column-content" data-status="${status}_${boardId}"></div>
+                    <div class="board-column-content board-column-content${status}" data-status="${status}_${boardId}"></div>
                 </div>`
 }
 
