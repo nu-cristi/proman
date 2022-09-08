@@ -58,22 +58,27 @@ function boardBuilder(statuses, board) {
                 </div>`)
     }
     // console.log(columns.join(''));
-    return `<div class="board-container">
+    return (
+        `<div class="board-container">
             <section class="board" data-board-id=${board.id}>
                 <div class="board-header"><span id='title' class="board-title" 
-                    data-board-id=${board.id}>${board.title}<button type="button" 
-                    class="icon-button right fas fa-trash-alt delete" data-board-id="${board.id}"></button></span> 
+                    data-board-id=${board.id}>${board.title}</span> 
+                    <button type="button" 
+                    class="icon-button right fas fa-trash-alt delete" data-board-id="${board.id}"></button>
                     <button type="button" class="board-toggle fas fa-folder" id="archived_cards_${board.id}" 
-                        data-board-id="${board.id}" data-show="false" style="float: right"></button>       
+                        data-board-id="${board.id}" data-show="false" style="float: right"></button>      
                     <input type="image" src="../static/downs.png" width="20" class="arrow-board-toggle" 
                         data-board-id="${board.id}" data-show="false"/>
                 </div>
             <div class="board-content" data-board-id="${board.id}">
-                <div class="board-columns">` + columns.join('') + `</div>
+                <div class="board-columns">` +
+        columns.join('') +
+        `</div>
             </div>
             
             </section>
-            </div>`;
+            </div>`
+    );
 }
 
 function cardBuilder(card) {
@@ -82,7 +87,7 @@ function cardBuilder(card) {
 
 export function buttonBuilder() {
     return `<button type="button" class="btn btn-outline-dark" data-toggle="modal" data-targhet="#newBoard"
-        id="create_new_board" name="new_board">Create new board</button>`
+        id="create_new_board" name="new_board" style="margin-left: 165px">Create new board</button>`;
 }
 
 

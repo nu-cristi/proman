@@ -53,7 +53,13 @@ export let boardsManager = {
                     '.board-column-title',
                     'dblclick',
                      renameColumnTitle
-                );
+            );
+            domManager.addEventListener(
+                `.delete[data-board-id="${board.id}"]`,
+                'click',
+                dataHandler.deleteBoard(board.id)
+            );
+            
         }
         for (let column of columns) {
             column.style.visibility = "hidden";
@@ -64,6 +70,7 @@ export let boardsManager = {
             domManager.addChild("#root", button);
             domManager.addEventListener(`#create_new_board`, 'click', addBoardTitle)
     },
+    
     dragAndDrop: function (boardId) {
         const cardContainers = document.querySelectorAll(`.board[data-board-id="${boardId}"] .board-column-content`)
         // let containers = []; 
@@ -82,7 +89,7 @@ export let boardsManager = {
                     cardId: parseInt(statusElement[i].dataset.cardId),
                     cardOrder: i + 1
                 }
-                dataHandler.moveCards(cardIdAndOrder.cardId, boardId, statusId);
+                dataHandler.moveCards(cardIdAndOrder.cardId, boardId, statusId, cardIdAndOrder.cardOrder);
                 cardsOrder.push(cardIdAndOrder);
             }
         
@@ -296,6 +303,8 @@ async function addNewColumn (clickEvent) {
         await boardsManager.loadBoards()
     })
 }
+
+
 
 
 

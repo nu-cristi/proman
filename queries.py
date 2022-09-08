@@ -175,3 +175,23 @@ def get_board(id):
         WHERE id = %(id)s""",
         {"id": id},
     )
+
+
+def update_card_order(cardId, boardId, statusId, cardOrder):
+    data_manager.execute_select(
+        """
+    UPDATE cards SET board_id = %(boardId)s, status_id=%(statusId)s, card_order=%(cardOrder)s
+    WHERE id = %(cardId)s returning id""",
+        {
+            "cardId": cardId,
+            "boardId": boardId,
+            "statusId": statusId,
+            "cardOrder": cardOrder,
+        },
+        False,
+    )
+
+def delete_board(boardId):
+    data_manager.execute_select(
+        """DELETE  FROM boards WHERE id = %(boardId)s""", {"boardId": boardId}
+    )

@@ -100,4 +100,4 @@ ALTER TABLE ONLY cards
 ALTER TABLE ONLY statuses
     ADD CONSTRAINT fk_statuses_board_id FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE;
 
-
+SELECT * FROM boards;

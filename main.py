@@ -33,7 +33,7 @@ def already_logged_in(function):
         if "id" not in session:
             return function(*args, **kwargs)
         else:
-            flash("You are already logged in, " + session['username'])
+            flash("You are already logged in, " + session["username"])
             return redirect(url_for("login_page"))
 
     return wrap
@@ -184,11 +184,22 @@ def logout():
 @app.post("/api/move_cards")
 def move_cards():
     cardId = request.json.get("cardId")
-    boardId = request.json.get("boardId")
-    statusId = request.json.get("statusId")
-    print(cardId, boardId, statusId)
-    return ""
+    boardId = request.json.get("statusId")[2]
+    statusId = request.json.get("statusId")[0]
+    cardOrder = request.json.get("cardOrder")
+    print(cardId, boardId, statusId, cardOrder)
+    data = queries.update_card_order(cardId, boardId, statusId, cardOrder)
+    print(data)
+    return data
 
+
+@app.post("/api/delete-board")
+def delete_board():
+    boardId = request.json.get("boardId")
+    print(boardId)
+    print("hahahah")
+    queries.delete_board(boardId)
+    return queries.get_public_boards()
 
 def main():
     app.run(debug=True, port=5001)
