@@ -15,4 +15,18 @@ export let domManager = {
             console.error("could not find such html element: " + parentIdentifier);
         }
     },
+
+
+    addEventListenerToMore(parentIdentifier, eventType, eventHandler) {
+        const parents = document.querySelectorAll(parentIdentifier)
+        if (parents.length >0) {
+            for (let i = 0; i < parents.length; i++) {
+                parents[i].addEventListener(eventType, eventHandler);
+            }
+        } else {
+            console.error("could not find such html element: " + parentIdentifier);
+        }
+    }
 };
+
+
