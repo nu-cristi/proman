@@ -1,0 +1,26 @@
+        <nav class="navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">PRO PERFORMERS</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li>
+                <a class="navbar-link active" aria-current="page" href="{{ url_for("index") }}">Main Page</a>
+            </li>
+            <li>
+                <a class="navbar-link" href="{{ url_for("register") }}">
+                    <span class="glyphicon glyphicon-user"></span>Registration</a>
+            </li>
+            <li>
+                <a class="navbar-link" href="{{ url_for("login") }}">
+                    <span class="glyphicon glyphicon-user"></span>Login</a>
+            </li>
+            <li>
+                <a class="navbar-link" href="{{ url_for("logout") }}">Logout</a>
+            </li>
+                <li>
+                    <a class="navbar-link" href='#'>Sign in as {{ session["username"] }}</a>
+                </li>
+        </ul>
+    </div>
+</nav>
