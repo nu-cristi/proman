@@ -23,9 +23,14 @@ export let boardsManager = {
         const publicBoards = await dataHandler.getPublicBoards();
         let privateButton = document.getElementById("create_private_board")
 
-        boards = publicBoards;
-       
-
+        if (privateButton) {
+            userId = privateButton.dataset.userId; // one
+            const privateBoards = await dataHandler.getPrivateBoards(userId);
+            boards = privateBoards.concat(publicBoards);
+        } else {
+            boards = publicBoards;
+        }
+        
         await this.newBoard()
         let columns = document.getElementsByClassName("board-content");
         // console.log(columns);
@@ -57,8 +62,9 @@ export let boardsManager = {
             domManager.addEventListener(
                 `.delete[data-board-id="${board.id}"]`,
                 'click',
-                dataHandler.deleteBoard(board.id)
+                deleteBoardById
             );
+
             
         }
         for (let column of columns) {
@@ -97,6 +103,22 @@ export let boardsManager = {
     }
 };
 
+async function deleteBoardById(clickEvent) {
+    const boardId = clickEvent.target.attributes['data-board-id'].nodeValue;
+    console.log(boardId);
+    await dataHandler.deleteBoard(boardId);
+    let parent = document.querySelector(".board-container")
+    let boards = parent.querySelectorAll('.board');
+    for (let board of boards) {
+        if (boardId === board.attributes['data-board-id'].nodeValue) {
+            root.removeChild(board);
+            break;
+        }
+    }
+    document.getElementById('root').innerHTML = '';
+    await boardsManager.loadBoards();
+    
+}
 async function addNewCard(clickEvent) {
     const boardId = clickEvent.target.parentElement.parentElement.dataset.boardId
 
@@ -161,7 +183,7 @@ function renameBoardTitle (clickEvent) {
 }
 
 
-// domManager.addEventListener(`#create_private_board`, 'click', addBoardTitle)      //de comentat
+domManager.addEventListener(`#create_private_board`, 'click', addBoardTitle)      //de comentat
 function addBoardTitle(clickEvent) {
     let userId = clickEvent.target.dataset.userId
     const newBoardModalTitle = modalBuilder('new_board')

@@ -193,16 +193,19 @@ def move_cards():
     return data
 
 
-@app.post("/api/delete-board")
-def delete_board():
-    boardId = request.json.get("boardId")
-    print(boardId)
-    print("hahahah")
+@app.route("/api/delete-board/<boardId>")
+@json_response
+def delete_board(boardId):
+    # boardId = request.json.get("boardId")
+    # print(boardId)
+    # print("hahahah")
     queries.delete_board(boardId)
     return queries.get_public_boards()
+    
+
 
 def main():
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5003)
 
     # Serving the favicon
     with app.app_context():

@@ -87,7 +87,7 @@ function cardBuilder(card) {
 
 export function buttonBuilder() {
     return `<button type="button" class="btn btn-outline-dark" data-toggle="modal" data-targhet="#newBoard"
-        id="create_new_board" name="new_board" style="margin-left: 165px">Create new board</button>`;
+        id="create_new_board" name="new_board" >Create new board</button>`;
 }
 
 

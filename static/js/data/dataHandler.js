@@ -67,7 +67,7 @@ export let dataHandler = {
         });
     },
     deleteBoard: async function (boardId) {
-        return postData('/api/delete-board', { boardId: boardId });
+        return apiGet(`/api/delete-board/${boardId}`);
     },
 
     writeDefaultColumns: async function (boardId) {

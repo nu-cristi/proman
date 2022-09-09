@@ -191,7 +191,11 @@ def update_card_order(cardId, boardId, statusId, cardOrder):
         False,
     )
 
+
 def delete_board(boardId):
     data_manager.execute_select(
-        """DELETE  FROM boards WHERE id = %(boardId)s""", {"boardId": boardId}
+        """DELETE  FROM boards WHERE id = %(boardId)s RETURNING id""", {"boardId": boardId}
     )
+
+
+
