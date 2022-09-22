@@ -13,10 +13,9 @@ def establish_connection(connection_data=None):
     :returns: psycopg2.connection
     """
     try:
-        connection_data =  os.getenv("DATABASE_URL")
+        connection_data = os.getenv("DATABASE_URL")
     except KeyError:
-        if connection_data is None:
-            connection_data = get_connection_data()
+        connection_data = get_connection_data()
     try:
         connect_str = "dbname={} user={} host={} password={}".format(
             connection_data["dbname"],

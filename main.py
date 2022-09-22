@@ -201,7 +201,6 @@ def delete_board(boardId):
     # print("hahahah")
     queries.delete_board(boardId)
     return queries.get_public_boards()
-    
 
 
 def main():
