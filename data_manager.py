@@ -36,15 +36,18 @@ def get_connection_data(db_name=None):
     with :MY__PSQL_: prefix
     :db_name: optional parameter. By default it uses the environment variable value.
     """
-    if db_name is None:
-        db_name = os.environ.get("MY_PSQL_DBNAME")
+    try:
+        return os.getenv("DATABASE_URL")
+    except KeyError:
+        if db_name is None:
+            db_name = os.environ.get("MY_PSQL_DBNAME")
 
-    return {
-        "dbname": db_name,
-        "user": os.environ.get("MY_PSQL_USER"),
-        "host": os.environ.get("MY_PSQL_HOST"),
-        "password": os.environ.get("MY_PSQL_PASSWORD"),
-    }
+        return {
+            "dbname": db_name,
+            "user": os.environ.get("MY_PSQL_USER"),
+            "host": os.environ.get("MY_PSQL_HOST"),
+            "password": os.environ.get("MY_PSQL_PASSWORD"),
+        }
 
 
 def execute_select(statement, variables=None, fetchall=True):
